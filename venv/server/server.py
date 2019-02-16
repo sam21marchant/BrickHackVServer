@@ -1,8 +1,3 @@
-print("Hello")
-
-print("Hi connor")
-print("matt is a fool")
-print ("matt is a very large fool")
 import socket
 
 HOST = ''
@@ -20,7 +15,7 @@ print("Connected by ", addr)
 
 while 1:
     data = conn.recv(1024)
-    print("recieved by client ", data)
+    print("recieved by client ", data.decode())
     if not data: break
 
     conn.sendall(data)
