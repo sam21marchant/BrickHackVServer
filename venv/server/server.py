@@ -57,6 +57,10 @@ class Server(object):
                         print("I am playing a song now")
                     elif action == 'pause':
                         print("I just paused a song")
+                    elif action == 'skip':
+                        print("I just skipped a song")
+                    elif action == 'replay':
+                        print("I just replayed a song")
                     else:
                         print("No action")
                 else:
