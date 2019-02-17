@@ -1,4 +1,6 @@
 import socket
+import json
+
 
 HOST = ''
 PORT = 35002
@@ -13,11 +15,17 @@ conn, addr = soc.accept()
 
 print("Connected by ", addr)
 
-while 1:
-    data = conn.recv(1024)
-    print("recieved by client ", data.decode())
-    if not data: break
+#while 1:
+data = conn.recv(1024).decode()
+print("recieved by client ", data)
+data.strip('\n')
+jsonData = json.loads(data)
 
-    conn.sendall(data)
+print(jsonData["username"])
+print(jsonData["password"])
+
+# if not data:
+    #break
+
+conn.sendall(json.dumps(jsonData).encode())
 conn.close()
-
