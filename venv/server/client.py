@@ -1,5 +1,15 @@
 import socket
 import json
+import spotipy
+
+
+sp = spotipy.Spotify()
+
+sp.start_playback()
+results = sp.search(q='weezer', limit=20)
+for i, t in enumerate(results['tracks']['items']):
+    print(' ', i, t['name'])
+'''
 
 HOST = '10.0.0.118'
 PORT = 35002
@@ -17,3 +27,4 @@ while 1:
     print(data.decode())
 
 soc.close()
+'''
