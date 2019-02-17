@@ -1,23 +1,49 @@
 import socket
+from _thread import *
+import threading
+print_lock = threading.Lock()
 
-HOST = ''
-PORT = 35002
+import json
 
-soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+def clientThread(client):
+    while True:
+        data = client.recv(1024)
+        if not data:
+            print('bye')
+        print_lock.release()
+        break
+    client.close()
 
-soc.bind((HOST, PORT))
+def Main():
 
-soc.listen(1)
+    HOST = ''
+    PORT = 35002
 
-conn, addr = soc.accept()
+    soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-print("Connected by ", addr)
+    soc.bind((HOST, PORT))
 
-while 1:
-    data = conn.recv(1024)
-    print("recieved by client ", data.decode())
-    if not data: break
+    soc.listen(1)
+    print("Server is listening")
+    while True:
+        conn, addr = soc.accept()
+        print_lock.aquire()
+        print("Connected by ", addr)
+        start_new_thread(clientThread, (client,))
+    soc.close()
+'''
+#while 1:
+data = conn.recv(1024).decode()
+print("recieved by client ", data)
+data.strip('\n')
+jsonData = json.loads(data)
 
-    conn.sendall(data)
+print(jsonData["username"])
+print(jsonData["password"])
+
+# if not data:
+    #break
+
+conn.sendall(json.dumps(jsonData).encode())
 conn.close()
-
+'''
